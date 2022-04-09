@@ -28,11 +28,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 2.1.4)
+  bundler (~> 2.2.10)
   minitest (~> 5.0)
   org2hiki!
   rake (~> 13.0.1)
   rspec (~> 3.0.0)
 
 BUNDLED WITH
-   2.1.4
+   2.2.25
