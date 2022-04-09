@@ -26,19 +26,23 @@ class Org2hikiTest < Minitest::Test
   end
 
   def test_list
-    p ""
-    3.times do |i|
-      p line = " " * 2 * i + "- hoge"
-      p actual = ToHiki.new.convert(line)
-      assert_equal("*" * (i + 1) + " hoge", actual)
+    puts ""
+    [["- hoge", "* hoge"],
+     ["  - hoge", "** hoge"],
+     ["    - hoge", "*** hoge"],
+    ].each do |input, expected|
+      p input
+      p actual = ToHiki.new.convert(input)
+      assert_equal(expected, actual)
     end
   end
 
   def test_desc
     p ""
-    p line = "- title :: hoge"
-    p actual = ToHiki.new.convert(line)
-    assert_equal(": title : hoge", actual)
+    p input = "- title :: hoge"
+    p actual = ToHiki.new.convert(input)
+    p expected = ": title : hoge"
+    assert_equal(expected, actual)
   end
 
   def test_enumerate
