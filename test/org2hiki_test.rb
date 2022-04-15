@@ -46,7 +46,14 @@ class Org2hikiTest < Minitest::Test
   end
 
   def test_enumerate
-    p ""
+    p lines = "
+- hoge
+  1. hoge
+  1. hoge
+1. hage"
+    p actual = ToHiki.new.convert(lines)
+    expected = "\n* hoge\n## hoge\n## hoge\n# hage"
+    assert_equal(expected, actual)
     3.times do |i|
       p line = " " * 3 * i + "1. hoge"
       p actual = ToHiki.new.convert(line)
