@@ -30,6 +30,8 @@ class ToHiki
       return ": #{m[1]} : #{m[2]}"
     elsif m = line.match((/^(\s*)- (.+)$/))
       return "*" * (m[1].size / 2 + 1) + " #{m[2]}"
+    elsif m = line.match((/^\|(.+)\|$/))
+      return convert_table(m, line)
     else
       return line
     end
@@ -81,5 +83,9 @@ class ToHiki
 
   def convert_link(m, line)
     line.gsub!(m[0], "[[#{m[2]}|#{m[1]}]]")
+  end
+
+  def convert_table(m, line)
+    line.gsub!("| ", "|| ")[0..-2]
   end
 end
