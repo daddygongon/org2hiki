@@ -86,6 +86,7 @@ class ToHiki
   end
 
   def convert_table(m, line)
+    # should be ...
     line.gsub!("| ", "|| ")[0..-2]
   end
 end
