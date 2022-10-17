@@ -16,8 +16,10 @@ describe ToHiki do
   end
 
   it "convert links on line" do
-    assert("[[https://n.com/ode.ipynb][nb]], [[https://n.com/ode.ipynb]]",
-           "[[nb|https://n.com/ode.ipynb]], [[https://n.com/ode.ipynb]]")
+    assert(" [[https://n.com/ode.ipynb][nb]], [[hoge.pdf]] ",
+           " [[nb|https://n.com/ode.ipynb]], {{attach_anchor(hoge.pdf)}} ")
+    #    assert("| 15年度  | [[Exam15.pdf][NumRecipe15]],[[Exam15_ans.pdf][NumRecipe15_ans]] | ",
+    #           "|| 15年度  || {{attach_anchor_string(NumRecipe15,Exam15.pdf)}},{{attach_anchor_string(NumRecipe15_ans,Exam15_ans.pdf)}}, ||")
   end
 
   it "convert head lines" do
@@ -39,6 +41,20 @@ describe ToHiki do
 
   it "convert options to comments" do
     assert("#+hogehoge", "// #+hogehoge")
+  end
+
+  it "convert table" do
+    org = <<-EOS
+| hoge | hage |
+|------+------|
+| hoge | hage |
+EOS
+    hiki = <<-EOS
+|| hoge || hage 
+|| 
+|| hoge || hage 
+EOS
+    assert(org, hiki.chomp)
   end
 
   it "convert example" do

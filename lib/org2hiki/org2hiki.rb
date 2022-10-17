@@ -30,7 +30,10 @@ class ToHiki
       return ": #{m[1]} : #{m[2]}"
     elsif m = line.match((/^(\s*)- (.+)$/)) # non-numbered_list
       return "*" * (m[1].size / 2 + 1) + " #{m[2]}"
-    elsif m = line.match((/^\|(.+)\|$/)) # table
+    elsif m = line.match((/^\|-/)) # table separate
+      return "|| "
+    elsif m = line.match((/^\| (.+)\|.*$/)) # table
+      #      p ["case_table", m]
       return convert_table(m, line)
     else
       return line
@@ -82,21 +85,28 @@ class ToHiki
 
   def recursive_convert_link(line)
     m0 = line.match(/(\[\[.+?\]\])(.*)/)
-    return if m0 == nil
+    return line if m0 == nil
     if m0[2].match(/\W/)
-      recursive_convert_link(m0[2]) # for multiple links
+      line.gsub!(m0[2], recursive_convert_link(m0[2])) # for multiple links
     end
-    m1 = m0[1].match(/\[\[(.+?)\](.*)\]/)
-    return line.gsub!(m1[0], hiki_link(m1))
+    m1 = m0[1].match(/\[\[(.+?)\](.*)\].*/)
+    subs = hiki_link(m1)
+    return line.gsub!(m1[0], subs)
   end
 
   def hiki_link(m1)
     string = m1[0]
     string2 = if url?(m1[1]) == nil
+        #      p ["case_non_url", m1]
         if m = string.match(/\[\[(.+)\]\[(.+)\]\]/)
+          #            p ["case double link", m]
           "{{attach_anchor_string(#{m[2]},#{m[1]})}}"
         elsif m = string.match(/\[\[(.+)\]\]/)
+          #           p ["case single link", m]
           "{{attach_anchor(#{m[1]})}}"
+        else
+          #          p ["else", m]
+          "{{attach_anchor(#{string})}}"
         end
       else
         if m = string.match(/file:(.+)\]\]/) # url? judges file:hoge.pdf == url
