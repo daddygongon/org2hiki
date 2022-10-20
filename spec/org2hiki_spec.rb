@@ -7,6 +7,10 @@ def assert(org, hiki)
 end
 
 describe ToHiki do
+  it "convert comment" do
+    assert("# hoge hage", "// hoge hage")
+  end
+
   it "convert specific_link" do
     assert("[[https://n.com/ode.ipynb][nb]]", "[[nb|https://n.com/ode.ipynb]]")
     assert("[[https://n.com/ode.ipynb]]", "[[https://n.com/ode.ipynb]]")

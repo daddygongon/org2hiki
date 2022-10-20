@@ -32,6 +32,8 @@ class ToHiki
       return "*" * (m[1].size / 2 + 1) + " #{m[2]}"
     elsif m = line.match((/^\|-/)) # table separate
       return "|| "
+    elsif m = line.match((/^\# (.+)/)) # table separate
+      return "// " + m[1].chomp
     elsif m = line.match((/^\| (.+)\|.*$/)) # table
       #      p ["case_table", m]
       return convert_table(m, line)
