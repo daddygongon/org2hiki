@@ -105,7 +105,12 @@ class ToHiki
           "{{attach_anchor_string(#{m[2]},#{m[1]})}}"
         elsif m = string.match(/\[\[(.+)\]\]/)
           #           p ["case single link", m]
-          "{{attach_anchor(#{m[1]})}}"
+          file = m[1]
+          if file.split(".").size == 2
+            "{{attach_anchor(#{file})}}"
+          else
+            "[[#{file}]]"
+          end
         else
           #          p ["else", m]
           "{{attach_anchor(#{string})}}"

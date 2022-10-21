@@ -7,6 +7,10 @@ def assert(org, hiki)
 end
 
 describe ToHiki do
+  it "convert CamelLink to [[CamelLink]]" do
+    assert("[[CamelLink]]", "[[CamelLink]]")
+  end
+
   it "convert comment" do
     assert("# hoge hage", "// hoge hage")
   end
