@@ -10,6 +10,7 @@ class ToHiki
   def convert(lines)
     lines.split(/\n/).each do |line|
       next if check_block?(line)
+      line = check_word line
       line = check_link line
       line = check_head line
       @outputs << line
@@ -18,6 +19,16 @@ class ToHiki
   end
 
   private
+
+  def check_word(line)
+    # strengthen
+    line.gsub!(/!(\p{word}+)/, "'''\\1'''")
+    #    line.gsub! /''(.+)''/, "*\\1*"
+
+    # deleted
+    line.gsub!(/\+(.+)\+/, "\=\=\\1\=\=")
+    line
+  end
 
   def check_head(line)
     return line if line == ""
@@ -117,7 +128,7 @@ class ToHiki
         end
       else
         if m = string.match(/file:(.+)\]\]/) # url? judges file:hoge.pdf == url
-          "{{attach_anchor(#{m[1]})}}"
+          check_file_extension(m[1])
         else
           if m2 = m1[2].match(/\[(.+)\]/)
             "[[#{m2[1]}|#{m1[1]}]]"
@@ -127,6 +138,15 @@ class ToHiki
         end
       end
     return string2
+  end
+
+  def check_file_extension(m)
+    case m.match(/\.(.+)$/)[1]
+    when "png"; "{{attach_view(#{m})}}"
+    when "pdf"; "{{attach_anchor(#{m})}}"
+    else
+      "{{attach_anchor(#{m})}}"
+    end
   end
 
   require "uri"

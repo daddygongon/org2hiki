@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    org2hiki (0.1.0)
+    org2hiki (0.1.1)
       thor
 
 GEM

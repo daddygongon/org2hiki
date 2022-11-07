@@ -7,6 +7,11 @@ def assert(org, hiki)
 end
 
 describe ToHiki do
+  it "convert strengthen and deleted words " do
+    assert("+word+ hoge", "==word== hoge")
+    assert("!項目 !word", "'''項目''' '''word'''")
+  end
+
   it "convert CamelLink to [[CamelLink]]" do
     assert("[[CamelLink]]", "[[CamelLink]]")
   end
@@ -21,6 +26,7 @@ describe ToHiki do
     assert("[[hoge.pdf][hoge]]", "{{attach_anchor_string(hoge,hoge.pdf)}}")
     assert("[[hoge.pdf]]", "{{attach_anchor(hoge.pdf)}}")
     assert("[[file:hoge.pdf]]", "{{attach_anchor(hoge.pdf)}}")
+    assert("[[file:hoge.png]]", "{{attach_view(hoge.png)}}")
   end
 
   it "convert links on line" do
