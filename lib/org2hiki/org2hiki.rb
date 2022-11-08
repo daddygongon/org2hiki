@@ -141,6 +141,9 @@ class ToHiki
   end
 
   def check_file_extension(m)
+    if m.match(/\.(.+)$/) == nil
+      raise "The file link #{m} has an xceptional file extension."
+    end
     case m.match(/\.(.+)$/)[1]
     when "png"; "{{attach_view(#{m})}}"
     when "pdf"; "{{attach_anchor(#{m})}}"
