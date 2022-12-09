@@ -6,7 +6,29 @@ def assert(org, hiki)
   expect(converted).to eq(hiki)
 end
 
+def make_block_comment(src, code = "")
+  input = <<EOS
+hoge.
+#+begin_#{src}#{code}
+# comment
+print("hello")
+#+end_src
+fuga.
+EOS
+  expected = "hoge.\n<<<#{code}\n# comment\nprint(\"hello\")\n>>>\nfuga."
+  return [input, expected]
+end
+
 describe ToHiki do
+  it "convert block" do
+    [["src", " ruby"],
+     ["src", " python"],
+     ["example"]].each do |src, code|
+      input, expected = make_block_comment(src, code)
+      assert(input, expected)
+    end
+  end
+
   it "convert strengthen and deleted words " do
     assert("+word+ hoge", "==word== hoge")
     assert("!項目 !word", "'''項目''' '''word'''")

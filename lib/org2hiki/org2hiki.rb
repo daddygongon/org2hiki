@@ -84,6 +84,9 @@ class ToHiki
     when "begin_src ruby"
       @in_example = true
       return "<<< ruby"
+    when "begin_src python"
+      @in_example = true
+      return "<<< python"
     when "end_src", "end_example"
       @in_example = false
       return ">>>"
