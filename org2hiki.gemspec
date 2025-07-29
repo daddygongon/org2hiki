@@ -26,5 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "minitest", "~> 5.0"
   spec.add_development_dependency "minitest-reporters"
   spec.add_development_dependency "rspec", "~> 3.0.0"
-  spec.add_runtime_dependency "thor"
+  spec.add_runtime_dependency "thor", ">= 1.4.0"
 end
